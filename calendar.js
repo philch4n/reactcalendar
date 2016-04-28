@@ -57,3 +57,21 @@ var DatePicker - React.createClass ({
 		);
 	}
 });
+
+var Calendar = React.createClass({
+	onMove: function (view, isForward) {
+		this.refs.weeks.moveTo(view, isForward);
+	},
+
+	onTransitionEnd: function () {
+		this.refs.monthHeader.enable();
+	},
+
+	render: function () {
+		return React.createElement("div", {className: "calendar" + (this.props.visible ? "visible" : "")},
+			React.createElement(MonthHeader, {ref: "monthHeader", view: this.props.view, onMove: this.onMove}),
+			React.createElement(WeekHeader, null),
+			React.createElement(Weeks, {ref: "weeks", view: this.props.view, selected: this.props.selected, onTransitionEnd: this.onTransitionEnd, onSelect: this.props.onSelect, minDate: this.props.minDate, maxDate: this.props.maxDate})
+		);
+	}
+});
